@@ -1,0 +1,9 @@
+<article>
+            
+            <a href="https://www.flaticon.es/iconos-gratis/agregar-usuario" title="agregar usuario iconos">Agregar usuario iconos creados por Freepik - Flaticon</a>
+            <a href="https://www.flaticon.es/iconos-gratis/editar" title="editar iconos">Editar iconos creados por Freepik - Flaticon</a>
+            <a href="https://www.flaticon.es/iconos-gratis/usuario" title="usuario iconos">Usuario iconos creados por Smashicons - Flaticon</a>
+            <a href="https://www.flaticon.es/iconos-gratis/eliminar" title="eliminar iconos">Eliminar iconos creados por Kiranshastry - Flaticon</a>
+            <a href="https://www.flaticon.es/iconos-gratis/rotacion" title="rotación iconos">Rotación iconos creados por monkik - Flaticon</a>
+            
+        </article>

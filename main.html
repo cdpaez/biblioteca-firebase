@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .contenedor__encabezado{
+        height:80px;
+        background-color: black;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .div__encabezado{
+        width: 100%;
+        font-size: 1rem;
+        color: aliceblue;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .contenedor__barranav{
+        width: 100%;
+    }
+    
+    .contenedor__lista{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .contenedor__lista-articulo{
+        list-style: none;
+    }
+    .contenedor__lista-articulo-enlace{
+        margin-right: 1rem;
+        font-size: 24px;
+        text-decoration: none;
+        color: aliceblue;
+    }
+    .encabezado__imagen{
+        height: 3rem;
+        width: 3rem;
+        border-radius: 50%;
+        margin-right: 1rem;
+    }
+    @media screen {
+        
+    }
+</style>
+<body>
+    <header class="contenedor__encabezado">
+
+        <div class="div__encabezado">
+            <h1>Bienvenido a la bibioteca</h1>
+        </div>
+        
+        <nav class="contenedor__barranav">
+            <ul class="contenedor__lista">
+                <li class="contenedor__lista-articulo">
+                    <a class="contenedor__lista-articulo-enlace" href="">terror</a>
+                </li>
+                <li class="contenedor__lista-articulo">
+                    <a class="contenedor__lista-articulo-enlace" href="">ficción</a>
+                </li>
+                <li class="contenedor__lista-articulo">
+                    <a class="contenedor__lista-articulo-enlace" href="">No ficcion</a>
+                </li>
+                <li class="contenedor__lista-articulo">
+                    <a class="contenedor__lista-articulo-enlace" href="">misterio</a>
+                </li>
+                <li class="contenedor__lista-articulo">
+                    <a class="contenedor__lista-articulo-enlace" href="">thriller</a>
+                </li>
+                <li class="contenedor__lista-articulo">
+                    <a class="contenedor__lista-articulo-enlace" href="">romance</a>
+                </li>
+
+                <img class="encabezado__imagen" src="../Biblioteca-Desarrollo/assets/user.png" alt="">
+            </ul>
+        </nav>
+    </header>
+
+
+    <main class="contenido_principal">
+        
+        <section class="terror" id="terror">section1</section>
+        <section class="ficcion" id="ficcion">section2</section>
+        <section class="noficcion" id="noficcion">section3</section>
+        <section class="misterio" id="misterio">section4</section>
+        <section class="thriller" id="thriller">section5</section>
+        <section class="romance" id="romance">section6</section>
+    </main>
+    
+    <script>
+
+    </script>
+</body>
+</html>

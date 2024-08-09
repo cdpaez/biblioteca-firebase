@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Usuario de la Biblioteca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        canvas {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Perfil del Usuario de la Biblioteca</h1>
+    </header>
+    <div class="container">
+        <h2>Información del Usuario</h2>
+        <p><strong>Nombre:</strong> Carlos Pérez</p>
+        <p><strong>ID de Usuario:</strong> 123456</p>
+        <p><strong>Edad:</strong> 30 años</p>
+        <p><strong>Email:</strong> carlos.perez@example.com</p>
+
+        <h2>Estadísticas de Lectura</h2>
+        <canvas id="libraryChart"></canvas>
+    </div>
+    <script>
+        const ctx = document.getElementById('libraryChart').getContext('2d');
+        const libraryChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Libros Leídos', 'Préstamos Hechos'],
+                datasets: [{
+                    label: 'Estadísticas del Usuario',
+                    data: [35, 12], // Datos de ejemplo: 35 libros leídos y 12 préstamos
+                    backgroundColor: [
+                        'rgb(127, 255, 212)', // Azul aguamarina
+                        'rgb(0, 123, 255)'   // Azul
+                    ],
+                    borderColor: 'rgb(0, 0, 0)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

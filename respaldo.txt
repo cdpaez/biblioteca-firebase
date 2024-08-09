@@ -1,0 +1,267 @@
+//intentar trabajar exclusivamente con funciones\\
+//se puede modificar para llamar a una funcion que abra una base de datos\\
+const nombreBD = 'BibliotecaDB'
+const versionBDBiblioteca = 2;
+
+instanciarBD(nombreBD, versionBDBiblioteca);
+
+function instanciarBD(nombreBD, versionBDBiblioteca) {
+    const solicitudBibliotecaBD = indexedDB.open(nombreBD, versionBDBiblioteca);
+    solicitudBibliotecaBD.onerror = (evento) => {
+        let peticion = evento.target.result;
+        console.log(`error al instanciar la base de datos: ${nombreBD}`);
+    }
+    solicitudBibliotecaBD.onupgradeneeded = (evento) => {
+        let peticion = evento.target.result;
+        console.log(`actualizacion exitosa de la base de datos: ${nombreBD}`);
+        
+        //aca se crea los almacenes de objetos para una base de datos indexada\\
+        let bibliotecaUsuarios = peticion.createObjectStore('usuarios', { keyPath: 'id', autoIncrement: true });
+        let bibliotecaPrestamos = peticion.createObjectStore('prestamos', { keyPath: 'id', autoIncrement: true });
+        let bibliotecaLibros = peticion.createObjectStore('libros', { keyPath: 'id', autoIncrement: true });
+    
+        //indices creados en los respectivos almacenes de objetos\\
+        bibliotecaUsuarios.createIndex('CI','CI',{unique:true});
+        bibliotecaPrestamos.createIndex('usuario','usuario',{unique:false});
+        bibliotecaLibros.createIndex('libros', 'libros', { unique: false });
+
+    }
+    solicitudBibliotecaBD.onsuccess = (evento) => {
+        //el evento del exito vs el evento del evento de escucha es importante diferenciarlos\\
+        let peticion = evento.target.result;
+        console.log('¿?¿?¿?¿',peticion);
+        console.log(`acceso exitoso a la base de datos: ${nombreBD}`);
+        document.getElementById('agregar').addEventListener('click',(evento)=>{
+            evento.preventDefault();
+            agregarUsuario(peticion, nombreBD);
+        });
+        
+        document.getElementById('actualizar').addEventListener('click',(evento)=>{
+            evento.preventDefault();
+            actualizarUsuario(peticion,nombreBD)
+        });
+        
+        mostrarUsuariosBiblioteca(peticion, nombreBD);
+    }
+}
+
+//funciones\\
+
+//funcion agregar usuario\\
+
+function agregarUsuario(evento, nombreDB){
+    let peticion = evento;
+
+    //datos de los usuarios de la biblioteca\\
+    let credencialUsuario = document.getElementById('cedula').value; 
+    let nombreUsuario = document.getElementById('usuario').value;
+    let contrasena = document.getElementById('contrasena').value;
+    let email = document.getElementById('email').value;
+    let telefono = document.getElementById('telefono').value;
+
+    if (
+        credencialUsuario === "" ||
+        nombreUsuario === "" ||
+        contrasena === "" ||
+        email === "" ||
+        telefono === ""
+    ) {
+        alert('Debe completar el formulario');
+        return;
+    }
+
+    let DatosUsuario = {
+        CI: credencialUsuario,
+        nombre : nombreUsuario,
+        contrasena : contrasena,
+        email: email,
+        telefono: telefono
+    };
+
+    // Crear una transacción de lectura-escritura\\
+    let operacionAgregarUsuarios = peticion.transaction("usuarios", "readwrite");
+    let almacenUsuarios = operacionAgregarUsuarios.objectStore("usuarios");
+
+    //insercion de datos en bibliotecaBD\\
+    let transaccionFinalizada = almacenUsuarios.add(DatosUsuario);
+
+    //resultados de la transaccion\\
+    transaccionFinalizada.onerror = (evento) => {
+        let peticion = evento.target.result;
+        console.log(`error al agregar usuario a la BD: ${nombreDB}`);
+        alert(`puede que el usuario ${nombreUsuario} ya exista.`);
+    }
+    transaccionFinalizada.onsuccess = (evento) => {
+        let peticion = evento.target.result;
+        console.log(`se agrego el usuario ${nombreUsuario} exitosamente`);
+        alert(`usuario ${nombreUsuario} agregado exitosamente`);
+        document.getElementById('cedula').value = "";
+        document.getElementById('usuario').value = "";
+        document.getElementById('contrasena').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('telefono').value = "";
+        window.location.reload();
+    }
+}
+
+function actualizarUsuario(evento, nombreDB) {
+    let peticion = evento;
+
+    //datos de los usuarios de la biblioteca\\
+    let credencialUsuario = document.getElementById('cedula').value;
+    let nombreUsuario = document.getElementById('usuario').value;
+    let contrasena = document.getElementById('contrasena').value;
+    let email = document.getElementById('email').value;
+    let telefono = document.getElementById('telefono').value;
+
+    if (
+        credencialUsuario === "" ||
+        nombreUsuario === "" ||
+        contrasena === "" ||
+        email === "" ||
+        telefono === ""
+    ) {
+        alert('Debe completar el formulario');
+        return;
+    }
+
+    let DatosUsuario = {
+        CI: credencialUsuario,
+        nombre : nombreUsuario,
+        contrasena : contrasena,
+        email: email,
+        telefono: telefono
+    };
+
+    // Crear una transacción de solo lectura-escritura\\
+    let operacionActualizarUsuarios = peticion.transaction("usuarios", "readwrite");
+    let almacenUsuarios = operacionActualizarUsuarios.objectStore("usuarios");
+    let transaccionFinalizada = almacenUsuarios.put(DatosUsuario);
+   
+
+    //resultados de la transaccion\\
+    transaccionFinalizada.onerror = (evento) => {
+        let peticion = evento.target.result;
+        console.log(`error al agregar usuario a la BD: ${nombreDB}`);
+        alert(`puede que el usuario ${nombreUsuario} ya exista.`);
+    }
+    transaccionFinalizada.onsuccess = (evento) => {
+        let peticion = evento.target.result;
+        console.log(`se actualizo el usuario ${nombreUsuario} exitosamente`);
+        alert(`usuario ${nombreUsuario} actualizado exitosamente`);
+        document.getElementById('cedula').value = "";
+        document.getElementById('usuario').value = "";
+        document.getElementById('contrasena').value = "";
+        document.getElementById('email').value = "";
+        document.getElementById('telefono').value = "";
+        window.location.reload();
+    }
+}
+
+//Mostrar informacion en pantalla\\
+function mostrarUsuariosBiblioteca(evento, nombreBD){
+    let peticion = evento;
+    //contenedor donde se mostrara la lista de usuarios\\
+    let listaUsuarios = document.getElementById('lista-usuarios')
+    // Crear una transacción de solo lectura y llamar a un indice para optimizar la busqueda.\\
+    let operacionMostrarUsuarios = peticion.transaction("usuarios", "readonly");
+    let almacenUsuarios = operacionMostrarUsuarios.objectStore("usuarios");
+    let peticionMostrarUsuarios = almacenUsuarios.getAll();
+    //si la peticion fue exitosa entonces\\
+    peticionMostrarUsuarios.onerror = (evento) => {
+        let peticion = evento.target.result;
+        console.log('hubo un error al leer los datos');
+    }
+    peticionMostrarUsuarios.onsuccess = (evento) =>{
+        let peticion = evento.target.result;
+        console.log(`se han mostrado los usuarios de ${nombreBD} de manera exitosa`);
+        console.log(peticion);
+        //recorrer cada objeto mostrando su información\\
+        // Crear elementos <a> y agregarlos a la lista
+            peticion.forEach(item => {
+
+                const listItem = document.createElement('li');
+                listItem.style.listStyleType = 'none';
+
+                const anchor = document.createElement('a');
+                anchor.textContent = item.nombre; // Suponiendo que hay un campo "nombre" en tus objetos
+                anchor.href = `/indexedDB/popup/popup.html?id=${item.id}`;
+                anchor.onclick = (evento)=>{
+                    openPopup(evento, item.nombre);
+                };
+                const btn_borrar = document.createElement('button');
+                const attrClassBorrar = document.createAttribute('class');
+                attrClassBorrar.value = 'imagenBorrar';
+                btn_borrar.setAttributeNode(attrClassBorrar);
+                btn_borrar.onclick = (evento)=>{
+                    console.log('se procedio con la funcion borrar registro', evento);
+                    eliminarUsuario(item.id);
+                    alert(`se elimino el usuario ${item.nombre}`);
+                    window.location.reload();
+                }
+
+                const btn_actualizar = document.createElement('button');
+                const attrClassActualizar = document.createAttribute('class');
+                attrClassActualizar.value = 'imagenActualizar';
+                btn_actualizar.setAttributeNode(attrClassActualizar);
+                btn_actualizar.onclick = (evento) => {
+                    console.log('se cargaron los datos del usuario a la pagina', evento);
+                    mostrarDatosUsuario(item.id ,item.CI);
+                    alert(`se han cargado los datos del usuario ${item.nombre}`);
+                }
+                
+                listItem.appendChild(anchor);
+                listItem.appendChild(btn_borrar);
+                listItem.appendChild(btn_actualizar);
+                listaUsuarios.appendChild(listItem);
+            });
+    }
+}
+
+//mini ventana\\
+function openPopup(evento, nombre) {
+    evento.preventDefault(); // Previene la acción por defecto del enlace
+    const url = evento.target.href; // Obtiene el href del enlace
+    const windowName = nombre; // Nombre de la ventana 
+    console.log(windowName);
+    const windowFeatures = 'width=400,height=300,scrollbars=no,resizable=no'; //caracteristicas de la ventana
+    window.open(url, windowName, windowFeatures);
+}
+
+//  funcion borrar elemento\\
+function eliminarUsuario (idItem){
+    const solicitudBibliotecaBD = indexedDB.open(nombreBD,versionBDBiblioteca);
+    solicitudBibliotecaBD.onsuccess = (evento)=>{
+        let peticion = evento.target.result;
+        let operacionEliminarUsuario = peticion.transaction('usuarios','readwrite');
+        let almacenUsuarios = operacionEliminarUsuario.objectStore('usuarios');
+        let peticionEliminarUsuario = almacenUsuarios.delete(idItem);
+
+        peticionEliminarUsuario.onsuccess = (evento)=>{
+            let peticion = evento.target.result;
+            console.log(`se elimino el registro ${idItem}`);
+        }
+    }
+}
+
+//funcion actualizar usuario\\
+function mostrarDatosUsuario(id, credencial) {
+    console.log('esto que es',credencial)
+    const solicitudBibliotecaBD = indexedDB.open(nombreBD,versionBDBiblioteca);
+    solicitudBibliotecaBD.onsuccess = (evento) => {
+        let peticion = evento.target.result;
+        let operacionEliminarUsuario = peticion.transaction('usuarios', 'readonly');
+        let almacenUsuarios = operacionEliminarUsuario.objectStore('usuarios');
+        let idIndice = almacenUsuarios.index('CI')
+        let peticionBuscarUsuario = idIndice.get(credencial);
+
+        peticionBuscarUsuario.onsuccess = (evento) => {
+            let peticion = evento.target.result;
+            console.log(`se busco el usuario con el id ${id}`, peticion);
+            document.getElementById('cedula').value = peticion.CI;
+            document.getElementById('usuario').value = peticion.nombre;
+            document.getElementById('email').value = peticion.email;
+            document.getElementById('telefono').value = peticion.telefono;
+        }
+    }
+}

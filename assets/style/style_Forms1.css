@@ -1,0 +1,80 @@
+/* style_Forms.css */
+.formulario{
+margin: 1em;
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+grid-template-areas: 
+    "form1 form2 form3";
+overflow-x: auto;
+gap: 1%;
+
+}
+#form {
+
+grid-area: form1;
+width: 23vw;
+height: auto;
+}
+#form1 {
+
+grid-area: form2;
+width: 23vw;
+height: auto;
+}
+#form2 {
+
+grid-area: form3;
+width: 23vw;
+height: auto;
+}
+.form-registro {
+background-color: #f2f2f2;
+border-radius: 5px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.form-registro h1 {
+text-align: center;
+margin: 2% 0;
+
+}
+
+.datos__formulario {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 90%;
+}
+
+.datos__formulario input {
+width: 100%;
+padding: 10px;
+margin-bottom: 10px;
+border-radius: 5px;
+border: 1px solid #ccc;
+}
+
+.btn__formulario {
+display: flex;
+justify-content: center;
+width: 100%;
+gap: 5%;
+}
+
+.btn__formulario input {
+padding: 10px 20px;
+border-radius: 5px;
+border: none;
+cursor: pointer;
+}
+
+.btn__formulario input[type="submit"] {
+background-color: #4CAF50;
+color: white;
+}
+
+.btn__formulario input[type="submit"]:hover {
+background-color: #45a049;
+}

@@ -1,0 +1,182 @@
+/* Archivo CSS organizado por secciones */
+/*imports*/
+
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC:wght@100..400&family=Skranji:wght@400;700&display=swap');
+
+/* Estilos globales */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; 
+}
+main {
+    flex: 1; 
+    justify-content: center;
+}
+footer {
+flex-shrink: 0; /* Evita que el footer se reduzca en tamaño si el contenido es más largo */
+}
+
+
+/* Variables (usando CSS variables para facilitar cambios) */
+:root {
+    --primary-color: #115abc;
+    --primary-h1-color: antiquewhite;
+    --secondary-color: #2ecc71;
+    --auxiliar-color: #41b7bb;
+    --background-color: #ef9f58;
+    --font-size-base: 16px;
+    --padding-base: 10px;
+    --navbar-height: 30px;
+    --altura-side: 500px;
+    --altura-header:30px;
+}
+
+
+/* Encabezado */
+.header {
+    background-color: var(--primary-color);
+}
+.header h1 {
+    color: var(--primary-h1-color);
+    padding-left: 2rem;
+}
+
+
+
+/* Contenido principal */
+.main-content {
+    background-color:var(--background-color);
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: var(--padding-base);
+    display: grid;
+    grid-template-columns: 25% 25% 50%;
+    column-gap: 1rem;
+    gap: 1rem;
+    width: 100%;
+}
+
+
+/*  //aside para visualizar usuarios\\    */
+.sidebar{
+    height: var(--altura-side);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+.logo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.logo img {
+    margin-top: 1rem;
+    width: 3rem;
+    height: 3rem;
+}
+.lista-usuarios{
+    display: flex;
+    flex-direction: column;
+}
+.lista-usuarios a{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    color: aliceblue;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+.lista-usuarios button {
+    margin: 0 1rem 0 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+.lista-usuarios li{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+    background-color: var(--primary-color);
+    border: 2px solid whitesmoke;
+    border-radius: 1%;
+    margin-left: 1rem;
+    padding: 0.8rem;
+}
+.opciones__usuarios{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    
+}
+.imagenBorrar{
+    border: none;
+    background: url('./assets/trash.svg') no-repeat;
+    background-size: cover;
+    filter: invert(1); 
+}
+.imagenActualizar{
+    border: none; 
+    background: url('./assets/datos.svg') no-repeat; 
+    background-size: cover;
+    filter: invert(1); 
+}
+
+/*Formulario de registro*/
+.form-registro {
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+}
+.form-registro img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.datos__formulario{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.btn__formulario{
+    margin-top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.form-registro input[type="text"],
+.form-registro input[type="password"],
+.form-registro input[type="email"]{
+    width: 100%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+.form-registro input[type="submit"]{
+    width: 40%;
+}
+
+/*dashboard*/
+
+/* Pie de página */
+.footer {
+    width: 100%;
+    background-color:var(--primary-color);
+    padding: var(--padding-base);
+    text-align: center;
+    color: white;
+}
+.footer h6 {
+    margin: 0 0 0 0;
+    font-size: large;
+}
+
